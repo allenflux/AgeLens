@@ -9,6 +9,9 @@ import SwiftUI
 import UIKit
 
 struct ContentView: View {
+    private let productionServerAddress = "https://api.allenflux.tech"
+    private let legacyServerAddress = "http://allenflux.tech:8010"
+
     private enum ActiveSheet: Identifiable {
         case camera
         case photoLibrary
@@ -23,7 +26,7 @@ struct ContentView: View {
         }
     }
 
-    @AppStorage("serverAddress") private var serverAddress = "http://allenflux.tech:8010"
+    @AppStorage("serverAddress") private var serverAddress = "https://api.allenflux.tech"
     @State private var imageAddress = ""
     @State private var selectedImage: UIImage?
     @State private var predictionResult: PredictionResult?
@@ -45,6 +48,7 @@ struct ContentView: View {
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle("AgeLens")
+            .onAppear(perform: migrateLegacyServerAddress)
             .sheet(item: $activeSheet) { sheet in
                 ImagePicker(sourceType: sheet == .camera ? .camera : .photoLibrary) { image in
                     selectedImage = image
@@ -114,7 +118,7 @@ struct ContentView: View {
             Text("服务器")
                 .font(.headline)
 
-            TextField("http://SERVER_IP:8000", text: $serverAddress)
+            TextField("https://api.example.com", text: $serverAddress)
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
                 .keyboardType(.URL)
@@ -258,6 +262,12 @@ struct ContentView: View {
             predictionResult = nil
         } catch {
             errorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+        }
+    }
+
+    private func migrateLegacyServerAddress() {
+        if serverAddress == legacyServerAddress {
+            serverAddress = productionServerAddress
         }
     }
 }

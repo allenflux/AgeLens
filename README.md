@@ -63,7 +63,7 @@ AgeLens 是一个轻量级 SwiftUI 应用，用于调用远程 MiVOLO API 服务
 Default API server:
 
 ```text
-http://allenflux.tech:8010
+https://api.allenflux.tech
 ```
 
 You can replace it in the app if you deploy your own MiVOLO service.
@@ -124,7 +124,7 @@ Backend documentation:
 Requirements:
 
 - Xcode 26.5 or newer
-- iOS 26.5 SDK
+- iOS 17.0 or newer
 - A reachable MiVOLO API server
 
 Open the project:
@@ -159,4 +159,3 @@ AgeLens/
 ├── AgeLensTests/            # Unit tests
 └── AgeLensUITests/          # UI tests
 ```
-
